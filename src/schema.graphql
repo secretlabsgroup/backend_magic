@@ -9,6 +9,7 @@ type Mutation {
 type Query {
 	users: [User]!
 	events: [Event]!
+	getEvents(genre: String!): [Event]
 }
 
 type User {
@@ -17,10 +18,14 @@ type User {
 	lastName: String!
 	email: String!
 	password: String!
+	zipcode: String
 }
 
 type Event {
 	id: ID!
 	title: String!
 	location: String!
+	url: String
+	eventId: String
+	zipCode: String
 }

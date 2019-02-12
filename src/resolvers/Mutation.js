@@ -1,5 +1,6 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+// const axios = require('axios');
 
 const Mutation = {
 	async createEvent(parent, args, ctx, info) {
