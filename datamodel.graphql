@@ -1,0 +1,52 @@
+enum Category {
+	CONCERT
+	DINNER
+	ADVENTURE
+	ROMANTIC
+	ARTS
+	FREE
+	EXOTIC
+}
+
+enum Permission {
+	FREE
+	PLATINUM
+	GOLD
+	GODTIER
+	ADMIN
+}
+
+type User {
+	id: ID! @unique
+	firstName: String!
+	lastName: String!
+	gender: Gender!
+	age: Int!
+	location: String!
+	email: String! @unique
+	phone: String! @unique
+	biography: String
+	imageThumbnail: String
+	imageLarge: String
+	resetToken: String
+	resetTokenExpiry: Float
+	interests: [Category]
+	events: [Event]
+	permissions: [Permission]
+	createdAt: DateTime!
+	updatedAt: DateTime!
+}
+
+type Event {
+	id: ID! @unique
+	title: String!
+	description: String
+	location: String!
+	startTime: DateTime
+	category: [Category]
+}
+
+enum Gender {
+	MALE
+	FEMALE
+}
