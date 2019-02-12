@@ -23,9 +23,24 @@ type User {
 
 type Event {
 	id: ID!
+	# eventId: String
 	title: String!
-	location: String!
-	url: String
-	eventId: String
+	details: Details
+	location: Location
+	image_url: String
+}
+
+type Location {
+	region: String!
+	venue: String!
+	address: String
 	zipCode: String
+}
+
+type Details {
+	url: String
+	performer: String
+	description: String
+	start_time: String
+	bio: String
 }
