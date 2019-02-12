@@ -11,23 +11,16 @@ type Query {
 	events: [Event]!
 }
 
-# type User {
-# 	id: ID! @unique
-# 	firstName: String!
-# 	lastName: String!
-# 	gender: Gender!
-# 	age: Int!
-# 	location: String!
-# 	email: String! @unique
-# 	phone: String! @unique
-# 	biography: String
-# 	imageThumbnail: String
-# 	imageLarge: String
-# 	resetToken: String
-# 	resetTokenExpiry: Float
-# 	interests: [Category]
-# 	events: [Event]
-# 	permissions: [Permission!]!
-# 	createdAt: DateTime!
-# 	updatedAt: DateTime!
-# }
+type User {
+	id: ID!
+	firstName: String!
+	lastName: String!
+	email: String!
+	password: String!
+}
+
+type Event {
+	id: ID!
+	title: String!
+	location: String!
+}

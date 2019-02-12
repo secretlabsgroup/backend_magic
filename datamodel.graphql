@@ -20,11 +20,12 @@ type User {
 	id: ID! @unique
 	firstName: String!
 	lastName: String!
-	gender: Gender!
-	age: Int!
-	location: String!
+	password: String!
+	gender: Gender
+	age: Int
+	location: String
 	email: String! @unique
-	phone: String! @unique
+	phone: String @unique
 	biography: String
 	imageThumbnail: String
 	imageLarge: String
