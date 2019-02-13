@@ -13,13 +13,11 @@ const seedDatabase = async () => {
 			user.gender = user.gender.toUpperCase();
 			const password = await bcrypt.hash(user.password, 10);
 			try {
-				const response = await db.mutation.updateUser({
+				const response = await db.mutation.createUser({
 					data: {
 						...user,
-						password
-					},
-					where: {
-						email: user.email
+						password,
+						permissions: { set: ['FREE'] }
 					}
 				});
 				return response;
