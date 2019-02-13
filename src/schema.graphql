@@ -25,6 +25,7 @@ type User {
 	lastName: String!
 	email: String!
 	zipcode: String
+	password: String
 	permissions: [Permission!]!
 	interests: [Category]
 	events: [Event]
