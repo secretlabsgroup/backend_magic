@@ -15,6 +15,7 @@ type Query {
 	events: [Event]!
 	getEvents(genre: String!): [Event]
 	getEvent(id: String!): Event
+	user(where: UserWhereUniqueInput!): User
 }
 
 type User {
@@ -22,9 +23,12 @@ type User {
 	firstName: String!
 	lastName: String!
 	email: String!
-	password: String!
 	zipcode: String
 	permissions: [Permission!]!
+	interests: [Category]
+	events: [Event]
+	createdAt: DateTime!
+	updatedAt: DateTime!
 }
 
 type Event {

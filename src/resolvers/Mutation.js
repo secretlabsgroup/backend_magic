@@ -67,7 +67,7 @@ const Mutation = {
 			where: { email: args.email },
 			data: { resetToken, resetTokenExpiry }
 		});
-		console.log(res);
+		console.log(res); // just to check and make sure the resetToken and expiry are getting set
 		const mailRes = await transport.sendMail({
 			from: 'wes@wesbos.com',
 			to: user.email,

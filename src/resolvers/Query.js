@@ -3,6 +3,14 @@ const axios = require('axios');
 const { transformEvents } = require('../utils');
 
 const Query = {
+	user(parent, args, ctx, info) {
+		return ctx.db.query.user(
+			{
+				...args
+			},
+			info
+		);
+	},
 	users: forwardTo('db'),
 	events: forwardTo('db'),
 	async getEvents(parent, args, ctx, info) {
