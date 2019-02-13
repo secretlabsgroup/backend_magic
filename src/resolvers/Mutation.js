@@ -129,6 +129,36 @@ const Mutation = {
 			},
 			info
 		);
+	},
+	async updatePermissions(parent, args, ctx, info) {
+		// will be used to upgrade user from FREE tier to monthly/yearly subscription loser plan
+
+		// this is commented out bc it messes up testing queries in the graphQL playground
+		// if (!ctx.response.userId) {
+		// 	throw new Error('you must be logged in to create events');
+		// }
+		const user = await ctx.db.query.user(
+			{
+				where: { id: ctx.response.userId }
+			},
+			info
+		);
+		if (user.permissions.includes(args.permission)) {
+			throw new Error(`User already has ${args.permissions} level access`);
+		}
+		return ctx.db.mutation.updateUser(
+			{
+				data: {
+					permissions: {
+						set: args.permissions
+					}
+				},
+				where: {
+					id: args.userId
+				}
+			},
+			info
+		);
 	}
 };
 
