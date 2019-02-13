@@ -3,13 +3,18 @@
 type Mutation {
 	signup(email: String!, password: String!, firstName: String!, lastName: String!): User!
 	signin(email: String!, password: String!): User!
+	signout: Message
 	createEvent(title: String!, location: String!): Event!
+	requestReset(email: String!): Message
+	resetPassword(resetToken: String!, password: String!, confirmPassword: String!): User!
+	updatePermissions(permissions: [Permission], userId: ID!): User
 }
 
 type Query {
 	users: [User]!
 	events: [Event]!
 	getEvents(genre: String!): [Event]
+	getEvent(id: String!): Event
 }
 
 type User {
@@ -19,11 +24,11 @@ type User {
 	email: String!
 	password: String!
 	zipcode: String
+	permissions: [Permission!]!
 }
 
 type Event {
 	id: ID!
-	# eventId: String
 	title: String!
 	details: Details
 	location: Location
@@ -43,4 +48,15 @@ type Details {
 	description: String
 	start_time: String
 	bio: String
+	tags: [Tag]
+}
+
+type Tag {
+	id: String
+	title: String
+	owner: String
+}
+
+type Message {
+	body: String
 }

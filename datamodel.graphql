@@ -33,21 +33,31 @@ type User {
 	resetTokenExpiry: Float
 	interests: [Category]
 	events: [Event]
-	permissions: [Permission]
+	permissions: [Permission!]!
 	createdAt: DateTime!
 	updatedAt: DateTime!
 }
 
 type Event {
 	id: ID! @unique
-	title: String!
-	description: String
-	location: String!
-	startTime: DateTime
-	category: [Category]
+	votes: Int
+	# title: String!
+	# description: String
+	# location: String!
+	# startTime: DateTime
+	# category: [Category]
 }
 
 enum Gender {
 	MALE
 	FEMALE
+}
+
+type Order {
+	id: ID! @unique
+	total: Int!
+	user: User!
+	charge: String!
+	createdAt: DateTime!
+	updatedAt: DateTime!
 }

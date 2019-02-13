@@ -13,6 +13,23 @@ const Query = {
 		);
 		const { event } = eventList.data.events;
 		return transformEvents(event);
+	},
+	async getEvent(parent, args, ctx, info) {
+		const event = await axios.get(
+			`http://api.eventful.com/json/events/get?&id=${args.id}&app_key=${process.env.API_KEY}`
+		);
+		console.log(event.data.links.link);
+		return {
+			title: event.data.title,
+			id: event.data.id,
+			// url: event.data.url,
+			location: {
+				venue: event.data.venue_name
+			},
+			details: {
+				tags: event.data.tags.tag
+			}
+		};
 	}
 };
 
