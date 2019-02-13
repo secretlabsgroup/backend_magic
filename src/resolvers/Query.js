@@ -3,6 +3,8 @@ const axios = require('axios');
 const { transformEvents } = require('../utils');
 
 const Query = {
+	users: forwardTo('db'),
+	events: forwardTo('db'),
 	user(parent, args, ctx, info) {
 		return ctx.db.query.user(
 			{
@@ -11,8 +13,6 @@ const Query = {
 			info
 		);
 	},
-	users: forwardTo('db'),
-	events: forwardTo('db'),
 	async getEvents(parent, args, ctx, info) {
 		const eventList = await axios.get(
 			`https://api.eventful.com/json/events/search?keywords=${args.genre}&app_key=${
@@ -26,7 +26,6 @@ const Query = {
 		const event = await axios.get(
 			`http://api.eventful.com/json/events/get?&id=${args.id}&app_key=${process.env.API_KEY}`
 		);
-		console.log(event.data.links.link);
 		return {
 			title: event.data.title,
 			id: event.data.id,

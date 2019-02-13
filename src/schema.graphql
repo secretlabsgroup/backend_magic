@@ -4,7 +4,8 @@ type Mutation {
 	signup(email: String!, password: String!, firstName: String!, lastName: String!): User!
 	signin(email: String!, password: String!): User!
 	signout: Message
-	createEvent(title: String!, location: String!): Event!
+	createEvent(title: String!, description: String!): Event!
+	deleteEvent(where: EventWhereUniqueInput!): Event
 	requestReset(email: String!): Message
 	resetPassword(resetToken: String!, password: String!, confirmPassword: String!): User!
 	updatePermissions(permissions: [Permission], userId: ID!): User
@@ -13,7 +14,7 @@ type Mutation {
 type Query {
 	users: [User]!
 	events: [Event]!
-	getEvents(genre: String!): [Event]
+	getEvents(genre: String): [Event]
 	getEvent(id: String!): Event
 	user(where: UserWhereUniqueInput!): User
 }
@@ -40,8 +41,8 @@ type Event {
 }
 
 type Location {
-	region: String!
-	venue: String!
+	region: String
+	venue: String
 	address: String
 	zipCode: String
 }

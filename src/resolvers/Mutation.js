@@ -5,6 +5,9 @@ const { transport, formatEmail } = require('../mail');
 
 const Mutation = {
 	async createEvent(parent, args, ctx, info) {
+		// if (!ctx.response.userId) {
+		// 	throw new Error('you must be logged in to create events');
+		// }
 		const event = await ctx.db.mutation.createEvent(
 			{
 				data: { ...args }
@@ -26,7 +29,7 @@ const Mutation = {
 			},
 			info
 		);
-		const token = jwt.sign({ userId: user.id }, process.env.APP_SECRET);
+		const token = await jwt.sign({ userId: user.id }, process.env.APP_SECRET);
 		ctx.response.cookie('token', token, {
 			httpOnly: true,
 			maxAge: 1000 * 60 * 60 * 24 * 365 // 1 year cookie
@@ -43,11 +46,12 @@ const Mutation = {
 		if (!valid) {
 			throw new Error('Invalid Password!');
 		}
-		const token = jwt.sign({ userId: user.id }, process.env.APP_SECRET);
+		const token = await jwt.sign({ userId: user.id }, process.env.APP_SECRET);
 		ctx.response.cookie('token', token, {
 			httpOnly: true,
 			maxAge: 1000 * 60 * 60 * 24 * 365
 		});
+
 		return user;
 	},
 	signout(parent, args, ctx, info) {
@@ -55,7 +59,6 @@ const Mutation = {
 		return { message: 'Goodbye!' };
 	},
 	async requestReset(parent, args, ctx, info) {
-		// 1. Check if this is a real user
 		const user = await ctx.db.query.user({ where: { email: args.email } });
 		if (!user) {
 			throw new Error(`No such user found for email ${args.email}`);
@@ -118,6 +121,14 @@ const Mutation = {
 			maxAge: 1000 * 60 * 60 * 24 * 365
 		});
 		return updatedUser;
+	},
+	deleteEvent(parent, args, ctx, info) {
+		return ctx.db.mutation.deleteEvent(
+			{
+				...args
+			},
+			info
+		);
 	}
 };
 

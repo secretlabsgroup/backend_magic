@@ -1,5 +1,5 @@
 # source: http://localhost:4466
-# timestamp: Tue Feb 12 2019 20:55:16 GMT-0600 (Central Standard Time)
+# timestamp: Tue Feb 12 2019 21:46:23 GMT-0600 (Central Standard Time)
 
 type AggregateEvent {
   count: Int!
@@ -33,6 +33,8 @@ scalar DateTime
 type Event implements Node {
   id: ID!
   votes: Int
+  title: String
+  description: String
 }
 
 """A connection to a list of items."""
@@ -47,6 +49,8 @@ type EventConnection {
 
 input EventCreateInput {
   votes: Int
+  title: String
+  description: String
 }
 
 input EventCreateManyInput {
@@ -68,6 +72,10 @@ enum EventOrderByInput {
   id_DESC
   votes_ASC
   votes_DESC
+  title_ASC
+  title_DESC
+  description_ASC
+  description_DESC
   updatedAt_ASC
   updatedAt_DESC
   createdAt_ASC
@@ -77,6 +85,8 @@ enum EventOrderByInput {
 type EventPreviousValues {
   id: ID!
   votes: Int
+  title: String
+  description: String
 }
 
 input EventScalarWhereInput {
@@ -150,6 +160,86 @@ input EventScalarWhereInput {
 
   """All values greater than or equal the given value."""
   votes_gte: Int
+  title: String
+
+  """All values that are not equal to given value."""
+  title_not: String
+
+  """All values that are contained in given list."""
+  title_in: [String!]
+
+  """All values that are not contained in given list."""
+  title_not_in: [String!]
+
+  """All values less than the given value."""
+  title_lt: String
+
+  """All values less than or equal the given value."""
+  title_lte: String
+
+  """All values greater than the given value."""
+  title_gt: String
+
+  """All values greater than or equal the given value."""
+  title_gte: String
+
+  """All values containing the given string."""
+  title_contains: String
+
+  """All values not containing the given string."""
+  title_not_contains: String
+
+  """All values starting with the given string."""
+  title_starts_with: String
+
+  """All values not starting with the given string."""
+  title_not_starts_with: String
+
+  """All values ending with the given string."""
+  title_ends_with: String
+
+  """All values not ending with the given string."""
+  title_not_ends_with: String
+  description: String
+
+  """All values that are not equal to given value."""
+  description_not: String
+
+  """All values that are contained in given list."""
+  description_in: [String!]
+
+  """All values that are not contained in given list."""
+  description_not_in: [String!]
+
+  """All values less than the given value."""
+  description_lt: String
+
+  """All values less than or equal the given value."""
+  description_lte: String
+
+  """All values greater than the given value."""
+  description_gt: String
+
+  """All values greater than or equal the given value."""
+  description_gte: String
+
+  """All values containing the given string."""
+  description_contains: String
+
+  """All values not containing the given string."""
+  description_not_contains: String
+
+  """All values starting with the given string."""
+  description_starts_with: String
+
+  """All values not starting with the given string."""
+  description_not_starts_with: String
+
+  """All values ending with the given string."""
+  description_ends_with: String
+
+  """All values not ending with the given string."""
+  description_not_ends_with: String
 }
 
 type EventSubscriptionPayload {
@@ -193,14 +283,20 @@ input EventSubscriptionWhereInput {
 
 input EventUpdateDataInput {
   votes: Int
+  title: String
+  description: String
 }
 
 input EventUpdateInput {
   votes: Int
+  title: String
+  description: String
 }
 
 input EventUpdateManyDataInput {
   votes: Int
+  title: String
+  description: String
 }
 
 input EventUpdateManyInput {
@@ -217,6 +313,8 @@ input EventUpdateManyInput {
 
 input EventUpdateManyMutationInput {
   votes: Int
+  title: String
+  description: String
 }
 
 input EventUpdateManyWithWhereNestedInput {
@@ -306,6 +404,86 @@ input EventWhereInput {
 
   """All values greater than or equal the given value."""
   votes_gte: Int
+  title: String
+
+  """All values that are not equal to given value."""
+  title_not: String
+
+  """All values that are contained in given list."""
+  title_in: [String!]
+
+  """All values that are not contained in given list."""
+  title_not_in: [String!]
+
+  """All values less than the given value."""
+  title_lt: String
+
+  """All values less than or equal the given value."""
+  title_lte: String
+
+  """All values greater than the given value."""
+  title_gt: String
+
+  """All values greater than or equal the given value."""
+  title_gte: String
+
+  """All values containing the given string."""
+  title_contains: String
+
+  """All values not containing the given string."""
+  title_not_contains: String
+
+  """All values starting with the given string."""
+  title_starts_with: String
+
+  """All values not starting with the given string."""
+  title_not_starts_with: String
+
+  """All values ending with the given string."""
+  title_ends_with: String
+
+  """All values not ending with the given string."""
+  title_not_ends_with: String
+  description: String
+
+  """All values that are not equal to given value."""
+  description_not: String
+
+  """All values that are contained in given list."""
+  description_in: [String!]
+
+  """All values that are not contained in given list."""
+  description_not_in: [String!]
+
+  """All values less than the given value."""
+  description_lt: String
+
+  """All values less than or equal the given value."""
+  description_lte: String
+
+  """All values greater than the given value."""
+  description_gt: String
+
+  """All values greater than or equal the given value."""
+  description_gte: String
+
+  """All values containing the given string."""
+  description_contains: String
+
+  """All values not containing the given string."""
+  description_not_contains: String
+
+  """All values starting with the given string."""
+  description_starts_with: String
+
+  """All values not starting with the given string."""
+  description_not_starts_with: String
+
+  """All values ending with the given string."""
+  description_ends_with: String
+
+  """All values not ending with the given string."""
+  description_not_ends_with: String
 }
 
 input EventWhereUniqueInput {

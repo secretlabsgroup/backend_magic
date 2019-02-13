@@ -41,8 +41,8 @@ type User {
 type Event {
 	id: ID! @unique
 	votes: Int
-	# title: String!
-	# description: String
+	title: String
+	description: String
 	# location: String!
 	# startTime: DateTime
 	# category: [Category]
