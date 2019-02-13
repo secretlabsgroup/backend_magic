@@ -1,7 +1,6 @@
 # import * from './generated/prisma.graphql'
 
 type Mutation {
-	currentUser: User
 	signup(email: String!, password: String!, firstName: String!, lastName: String!): User!
 	signin(email: String!, password: String!): User!
 	signout: Message
@@ -17,6 +16,7 @@ type Query {
 	events: [Event]!
 	getEvents(genre: String): [Event]
 	getEvent(id: String!): Event
+	currentUser: User
 	user(where: UserWhereUniqueInput!): User
 }
 
@@ -26,6 +26,7 @@ type User {
 	lastName: String!
 	email: String!
 	zipcode: String
+	gender: Gender
 	password: String
 	permissions: [Permission!]!
 	interests: [Category]
