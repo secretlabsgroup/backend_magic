@@ -5,33 +5,31 @@ const { transformEvents } = require('../utils');
 const Query = {
 	users: forwardTo('db'),
 	events: forwardTo('db'),
-	currentUser(parent, args, ctx, info) {
+	currentUser(parent, args, { db, request }, info) {
 		// check if there is a current user ID
-		if (!ctx.request.userId) {
+		if (!request.userId) {
 			return null;
 		}
-		return ctx.db.query.user(
+		return db.query.user(
 			{
-				where: { id: ctx.request.userId }
+				where: { id: request.userId }
 			},
 			info
 		);
 	},
-	user(parent, args, ctx, info) {
+	user(parent, args, { db }, info) {
 		// finds a user based on the args provided in the mutation
-		return ctx.db.query.user(
+		return db.query.user(
 			{
 				...args
 			},
 			info
 		);
 	},
-	async getEvents(parent, args, ctx, info) {
+	async getEvents(parent, { genre }, ctx, info) {
 		// searches for events based on the genre provided
 		const eventList = await axios.get(
-			`https://api.eventful.com/json/events/search?keywords=${args.genre}&app_key=${
-				process.env.API_KEY
-			}`
+			`https://api.eventful.com/json/events/search?keywords=${genre}&app_key=${process.env.API_KEY}`
 		);
 		const { event } = eventList.data.events;
 		// shapes return object into sveldt, beautiful object with whimsical designs
