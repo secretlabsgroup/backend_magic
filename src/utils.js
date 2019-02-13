@@ -6,9 +6,9 @@ module.exports = {
 			details: {
 				url: event.url || null,
 				description: event.description || `no description bc we're annoying af`,
-				start_time: event.start_time,
-				performer: event.performers.performer.name,
-				bio: event.performers.performer.short_bio
+				start_time: event.start_time
+				// performer: event.performers.performer ? event.performers.performer.name : 'not listed',
+				// bio: event.performers.performer.short_bio
 			},
 			location: {
 				region: event.olson_path,

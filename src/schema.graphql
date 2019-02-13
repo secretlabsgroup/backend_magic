@@ -1,6 +1,7 @@
 # import * from './generated/prisma.graphql'
 
 type Mutation {
+	currentUser: User
 	signup(email: String!, password: String!, firstName: String!, lastName: String!): User!
 	signin(email: String!, password: String!): User!
 	signout: Message
@@ -54,7 +55,7 @@ type Details {
 	description: String
 	start_time: String
 	bio: String
-	tags: [Tag]
+	tags: [Tag] ## can only query tags on single events
 }
 
 type Tag {
