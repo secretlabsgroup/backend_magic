@@ -1,5 +1,6 @@
 module.exports = {
 	transformEvents: function(events) {
+		// shape events return fields into a nice object for us to use and love and care for forever and ever
 		return events.map(event => ({
 			id: event.id,
 			title: event.title,

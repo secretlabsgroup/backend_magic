@@ -17,6 +17,7 @@ const Mutation = {
 		return event;
 	},
 	async signup(parent, args, ctx, info) {
+		// just in case some bozo puts their email in with capitalization for some reason
 		args.email = args.email.toLowerCase();
 		const password = await bcrypt.hash(args.password, 10);
 		const user = await ctx.db.mutation.createUser(
@@ -24,12 +25,13 @@ const Mutation = {
 				data: {
 					...args,
 					password,
-					permissions: { set: ['FREE'] }
+					permissions: { set: ['FREE'] } // default permission for user is FREE tier
 				}
 			},
 			info
 		);
 		const token = await jwt.sign({ userId: user.id }, process.env.APP_SECRET);
+		// adding that token to the cookie bc its neighborly
 		ctx.response.cookie('token', token, {
 			httpOnly: true,
 			maxAge: 1000 * 60 * 60 * 24 * 365 // 1 year cookie
@@ -47,9 +49,10 @@ const Mutation = {
 			throw new Error('Invalid Password!');
 		}
 		const token = await jwt.sign({ userId: user.id }, process.env.APP_SECRET);
+		// attach token to cookie even if that seems kinda obvious
 		ctx.response.cookie('token', token, {
 			httpOnly: true,
-			maxAge: 1000 * 60 * 60 * 24 * 365
+			maxAge: 1000 * 60 * 60 * 24 * 365 // 1 year long cookie bc why not. FIGHT ME
 		});
 
 		return user;
@@ -63,16 +66,18 @@ const Mutation = {
 		if (!user) {
 			throw new Error(`No such user found for email ${args.email}`);
 		}
+		// get a random string of numbers/letters
 		const random = await randomBytes(20);
+		// turn that random string into a hex number
 		const resetToken = random.toString('hex');
-		const resetTokenExpiry = Date.now() + 3600000;
+		const resetTokenExpiry = Date.now() + 3600000; // 1 hr from now
 		const res = await ctx.db.mutation.updateUser({
 			where: { email: args.email },
 			data: { resetToken, resetTokenExpiry }
 		});
 		console.log(res); // just to check and make sure the resetToken and expiry are getting set
 		const mailRes = await transport.sendMail({
-			from: 'wes@wesbos.com',
+			from: 'support@up4.life',
 			to: user.email,
 			subject: 'Your Password Reset Token',
 			html: formatEmail(`Your Password Reset Token is here!
@@ -83,7 +88,7 @@ const Mutation = {
 		// this is the SMTP Holden has setup that we can use to send emails once we go into production (have a hard cap of 100 emails/month though)
 
 		// const mailRes = await client.sendEmail({
-		// 	From: 'me@holdenb.me',
+		// 	From: 'support@up4.life',
 		// 	To: `${user.email}`,
 		// 	Subject: 'Your Password Reset Token!',
 		// 	HtmlBody: makeANiceEmail(`Your Password Reset Token is here!
@@ -106,6 +111,7 @@ const Mutation = {
 			throw new Error('This token is either invalid or expired');
 		}
 		const password = await bcrypt.hash(args.password, 10);
+		// removed token and expiry fields from user once updated
 		const updatedUser = await ctx.db.mutation.updateUser({
 			where: { email: user.email },
 			data: {
@@ -115,7 +121,7 @@ const Mutation = {
 			}
 		});
 		const token = jwt.sign({ userId: updatedUser.id }, process.env.APP_SECRET);
-
+		// put new token onto cookie bc i said so
 		ctx.response.cookie('token', token, {
 			httpOnly: true,
 			maxAge: 1000 * 60 * 60 * 24 * 365
@@ -123,6 +129,7 @@ const Mutation = {
 		return updatedUser;
 	},
 	deleteEvent(parent, args, ctx, info) {
+		// just a test mutation for removing the malformed events I was adding
 		return ctx.db.mutation.deleteEvent(
 			{
 				...args
@@ -143,6 +150,7 @@ const Mutation = {
 			},
 			info
 		);
+		// if somehow user makes it to backend when they shouldn't, we can have a secondary check to make sure they dont already have a plan
 		if (user.permissions.includes(args.permission)) {
 			throw new Error(`User already has ${args.permissions} level access`);
 		}

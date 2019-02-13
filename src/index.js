@@ -9,6 +9,7 @@ const server = createServer();
 
 server.express.use(cookieParser());
 
+// commented out bc it messes up testing queries and mutations in the graphql playground
 // server.express.use(async (req, res, next) => {
 // 	const { token } = req.cookies;
 // 	if (token) {
@@ -18,6 +19,7 @@ server.express.use(cookieParser());
 // 	next();
 // });
 
+// kinda self explanatory but by putting a comment here I feel like i've done a better job
 server.start(
 	{
 		cors: {
@@ -25,7 +27,7 @@ server.start(
 			origin: process.env.FRONTEND_URL
 		}
 	},
-	deets => {
-		console.log(`Server is now running on port http://localhost:${deets.port}`);
+	details => {
+		console.log(`Server is now running on port http://localhost:${details.port}`);
 	}
 );
