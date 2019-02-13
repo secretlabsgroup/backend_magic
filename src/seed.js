@@ -2,20 +2,23 @@ require('dotenv').config({ path: '.env' });
 const db = require('./db');
 const seedUsers = require('./seedUsers');
 
-const seedContinents = async () => {
-	// adding continents to the data
+const seedDatabase = async () => {
 	Promise.all(
-		continentData.map(async continentItem => {
-			const { imageURL, continent } = continentItem;
-			const response = await db.createContinent({
-				data: {
-					name: continent || 'default name',
-					imageURL
-				}
-			});
-			return response;
+		seedUsers.map(async user => {
+			delete user.id;
+			user.gender = user.gender.toUpperCase();
+			try {
+				const response = await db.mutation.createUser({
+					data: {
+						...user
+					}
+				});
+				return response;
+			} catch (err) {
+				throw new Error(err.message);
+			}
 		})
 	);
 };
 
-seedContinents();
+seedDatabase();
