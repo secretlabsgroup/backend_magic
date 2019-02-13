@@ -9,14 +9,15 @@ type Mutation {
 	requestReset(email: String!): Message
 	resetPassword(resetToken: String!, password: String!, confirmPassword: String!): User!
 	updatePermissions(permissions: [Permission], userId: ID!): User
+	createOrder(token: String!): Order!
 }
 
 type Query {
+	currentUser: User
 	users: [User]!
 	events: [Event]!
 	getEvents(genre: String): [Event]
 	getEvent(id: String!): Event
-	currentUser: User
 	user(where: UserWhereUniqueInput!): User
 }
 
